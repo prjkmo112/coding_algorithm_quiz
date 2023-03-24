@@ -1,32 +1,31 @@
 var fs = require('fs');
 
-function inputs() {
-    return fs.readFileSync('/dev/stdin').toString();
-}
 
-
-let T = parseInt(inputs().trim());
+let _inputs = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
+let T = parseInt(_inputs[0]);
+_inputs.splice(0,1);
 
 let results = [];
-let res_inputs = [];
-for (let i=0; i<T; i++) {
-    let _inputs = inputs().split(" ").map((v) => parseInt(v.trim()));
-    res_inputs.push({ x1: _inputs[0], y1: _inputs[1], r1: _inputs[2], x2: _inputs[3], y2: _inputs[4], r2: _inputs[5] });
-}
+for (let i in _inputs) {
+    // res_inputs.push({ x1: _inputs[0], y1: _inputs[1], r1: _inputs[2], x2: _inputs[3], y2: _inputs[4], r2: _inputs[5] });
 
-for (let i in res_inputs) {
-    let _i = res_inputs[i];
+    let [x1, y1, r1, x2, y2, r2] = _inputs[i].split(" ").map((v) => parseInt(v));
+    let distance12 = ((x1 - x2)**2 + (y1 - y2)**2)**0.5;
 
-    let v = Math.sqrt((_i.x2 - _i.x1) ** 2 + (_i.y2 - _i.y1) ** 2);
-    
-    if ( (v == 0 && _i.r1 !== _i.r2) || (v > _i.r1 + _i.r2) || (v < Math.abs(_i.r1 - _i.r2)) )
-        results.push(0);
-    else if (v == 0 && _i.r1 === _i.r2)
-        results.push(-1);
-    else if (v < _i.r1 + _i.r2 && v > Math.abs(_i.r1 - _i.r2))
-        results.push(2);
-    else if ( (v == _i.r1 + _i.r2) || (v === Math.abs(_i.r1 - _i.r2)) )
-        results.push(1);
+    if (distance12 > r1 && distance12 > r2) {
+        if (distance12 < r1 + r2) results.push(2);
+        else if (distance12 > r1 + r2) results.push(0);
+        else if (distance12 == r1 + r2) results.push(1);
+    } else {
+        if (distance12 == Math.abs(r1-r2)) {
+            if (distance12 == 0) results.push(-1);
+            else results.push(1);
+        } else if (distance12 < Math.abs(r1-r2)) {
+            results.push(0);
+        } else if (distance12 > Math.abs(r1 - r2)) {
+            results.push(2);
+        }
+    }
 }
 
 console.log(results.join("\n"));

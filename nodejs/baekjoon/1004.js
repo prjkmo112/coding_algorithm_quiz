@@ -34,7 +34,7 @@ for (let i=0; i<=caseIdx.length-1; i++) {
 
 // case1 : 시작점이나 끝점을 둘러싸고 있는 원의 갯수
 for (let i in caseArr) {
-    let answer1 = 0;
+    let answer = 0;
     let testcase = caseArr[i].slice(2, caseArr[i].length);  // 행성 정보 
     let regex = new RegExp(/([0-9-]+\s[0-9-]+)\s([0-9-]+\s[0-9-]+)/);
     let match = regex.exec(caseArr[i][0]);
@@ -54,10 +54,10 @@ for (let i in caseArr) {
         let distance_end = Math.sqrt((endpointArr[0] - circleArr[0])**2 + (endpointArr[1] - circleArr[1])**2);
 
         if ((distance_st > r && distance_end < r) || (distance_st < r && distance_end > r))
-            answer1++;
+            answer++;
         else
             continue;
     }
 
-    console.log(answer1);
+    console.log(answer);
 }

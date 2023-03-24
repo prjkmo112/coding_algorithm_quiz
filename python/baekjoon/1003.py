@@ -1,36 +1,20 @@
-testcase = int(input())
+def getFiboZeroOneFaster(fiboIdx:int):
+    if fiboIdx == 0:
+        return { "zero": 1, "one": 0 }
+    elif fiboIdx == 1:
+        return { "zero": 0, "one": 1 }
+    
+    prev = getFiboZeroOneFaster(fiboIdx-1)
+    return { "zero": prev['one'], "one": prev['zero'] + prev['one'] }
+
+
+T = int(input()) # 테스트 케이스
+inputs = [int(input()) for i in range(0, T)]
 
 result = []
+if T == len(inputs) and T > 0:
+    for i in range(0, T):
+        result.append(getFiboZeroOneFaster(inputs[i]))
 
-
-def fibonacci_cnt(n):
-    n = int(n)
-
-    if n == 0:
-        return {"zero": 1, "one": 0}
-    elif n == 1:
-        return {"zero": 0, "one": 1}
-    elif n == 2:
-        return {"zero": 1, "one": 1}
-    elif n == 3:
-        return {"zero": 1, "one": 2}
-    else:
-        return plus_fibonacci_cnt(n - 1, n - 2)
-
-
-def plus_fibonacci_cnt(n, n2):
-    zero_val = fibonacci_cnt(n)["zero"] + fibonacci_cnt(n2)["zero"]
-    one_val = fibonacci_cnt(n)["one"] + fibonacci_cnt(n2)["one"]
-
-    return {"zero": zero_val, "one": one_val}
-
-
-for i in range(testcase):
-    _input = input()
-    fib_result = fibonacci_cnt(_input)
-
-    _result = f'{fib_result["zero"]} {fib_result["one"]}'
-    result.append(_result)
-
-if result.__len__() > 0:
-    list(map(print, result))
+for v in result:
+    print(f'{v["zero"]} {v["one"]}')
