@@ -7,6 +7,7 @@
 
 ### 알고리즘 문제 사이트
 1. [백준](https://www.acmicpc.net/)
+2. [Leetcode](https://leetcode.com/)
 
 ### 언어
 1. [Python](/python/)
