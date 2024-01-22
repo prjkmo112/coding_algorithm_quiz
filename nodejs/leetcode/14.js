@@ -4,37 +4,40 @@
  */
 var longestCommonPrefix = function(strs) {
     let common = '';
-    let _common = '';
     
-    let useBreak = false;
+    strs = strs.sort((a,b) => b.length - a.length);
+    let max_str_len = strs[0].length;
     let idx = 0;
     do {
-        _common += strs[0][idx];
-        if (_common === undefined)
-            break;
-        
-        let suc = true;
+        let _common;
+        let pass = false;
         for (let i in strs) {
-            suc = true;
-            if (strs[i].indexOf(_common) < 0)
-                suc = false;
-            if (strs[i][idx] === undefined)
-                useBreak = true;
+            if (_common === undefined) {
+                if (strs[i] === "")
+                    _common = "";
+                else
+                    _common = strs[i][idx];
+                pass = true;
+            } else if (_common !== strs[i][idx])
+                pass = false;
+
+            if (!pass)
+                break;
         }
 
-        if (useBreak)
+        if (pass)
+            common += _common;
+        else
             break;
-        
-        if (suc) {
-            common += strs[0][idx];
-        }
-        idx++
-    } while (!useBreak);
+        idx++;
+    } while (idx < max_str_len);
 
     return common;
 };
 
 
-console.log(longestCommonPrefix(["flower","flow","flight"]));
-console.log(longestCommonPrefix(["dog","racecar","car"]));
-console.log(longestCommonPrefix(["c","acc","ccc"]));
+// console.log(longestCommonPrefix(["flower","flow","flight"]));
+// console.log(longestCommonPrefix(["dog","racecar","car"]));
+// console.log(longestCommonPrefix(["c","acc","ccc"]));
+// console.log(longestCommonPrefix([""]));
+console.log(longestCommonPrefix(["a","ac"]));
